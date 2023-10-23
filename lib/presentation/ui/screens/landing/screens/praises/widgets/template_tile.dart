@@ -1,38 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/router/app_router.dart';
 import '../../../../../../../core/utils/extensions/context_extension.dart';
-import '../../../../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../../../../core/utils/styles/dimensions/ui_dimensions.dart';
+import '../../../../../../providers/core/router_provider.dart';
+import '../../../../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../../../../widgets/custom_text.dart';
 
-class TemplateTile extends StatelessWidget {
-  final int index;
-  final String imageUrl;
-  const TemplateTile({super.key, required this.imageUrl, required this.index});
+class TemplateTile extends ConsumerWidget {
+  final PraiseTeamplate praiseTeamplate;
+  const TemplateTile({super.key, required this.praiseTeamplate});
 
   @override
-  Widget build(BuildContext context) {
-    List<Color> colors = UIColorsLight().templateColors;
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          height: 150.h,
-          decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.all(Radius.circular(UIDimensions.cardR16)),
-            color: colors[index],
-            image: DecorationImage(
-              image: AssetImage(imageUrl),
+        InkWell(
+          onTap: () => ref
+              .read(appRouterProvider)
+              .push(PraiseEmployeeRoute(praiseTeamplate: praiseTeamplate)),
+          child: Container(
+            height: 130.h,
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(UIDimensions.cardR16)),
+              color: praiseTeamplate.templateBackgroundColor,
+              image: DecorationImage(
+                image: AssetImage(praiseTeamplate.templateImageUrl),
+              ),
             ),
           ),
         ),
         UIDimensions.verticalSpaceSmall,
         SizedBox(
             width: context.screenWidth * 0.4,
-            child: const CustomText.bodyMedium(
-              "Thank You ",
+            child: CustomText.bodyMedium(
+              praiseTeamplate.templateName,
               maxLines: 2,
               textAlign: TextAlign.center,
             )),
