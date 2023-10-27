@@ -12,6 +12,7 @@ import 'data_source/local/user_local_data_source.dart';
 import 'data_source/remote/employee_remote_data_source.dart';
 import 'data_source/remote/news_remote_data_source.dart';
 import 'data_source/remote/user_remote_data_source.dart';
+import 'data_source/remote/praise_remote_data_source.dart';
 
 part 'data_service_providers.g.dart';
 
@@ -68,4 +69,9 @@ NewsRemoteDataSource newsRemoteDataSource(NewsRemoteDataSourceRef ref) {
 EmployeeRemoteDataSource employeeRemoteDataSource(
     EmployeeRemoteDataSourceRef ref) {
   return EmployeeRemoteDataSource(ref.watch(apiManagerProvider));
+}
+
+@Riverpod(keepAlive: true)
+PraiseRemoteDataSource praiseRemoteDataSource(PraiseRemoteDataSourceRef ref) {
+  return PraiseRemoteDataSource(ref.watch(apiManagerProvider));
 }

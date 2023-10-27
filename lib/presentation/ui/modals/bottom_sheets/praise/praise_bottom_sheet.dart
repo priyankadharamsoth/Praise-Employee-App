@@ -5,6 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/utils/extensions/context_extension.dart';
 import '../../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../../core/utils/styles/dimensions/ui_dimensions.dart';
+import '../../../../../domain/models/praise/praise.dart';
+import '../../../../../domain/states/praise_state.dart';
+import '../../../../providers/praise/praise_provider.dart';
 import '../../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../../screens/landing/screens/praises/widgets/template_tile.dart';
 import '../../../widgets/custom_text.dart';
@@ -15,6 +18,7 @@ class PraiseTemplateBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final List<Praise>? praises = ref.watch(praiseNotifierProvider).praises;
     return Padding(
       padding: UIDimensions.allPaddingGeometry(16),
       child: SizedBox(
@@ -46,7 +50,7 @@ class PraiseTemplateBottomSheet extends ConsumerWidget {
                       SizedBox(
                         width: context.screenWidth * 0.35,
                         child: TemplateTile(
-                            praiseTeamplate: praiseTemplatesList[index]),
+                            praiseTeamplate: praises?[index] ?? const Praise()),
                       ),
                       UIDimensions.horizontalSpaceMedium,
                     ],

@@ -6,6 +6,8 @@ import '../../../../core/router/app_router.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
+import '../../../../domain/enums/Praise_images.dart';
+import '../../../../domain/models/praise/praise.dart';
 import '../../../providers/core/router_provider.dart';
 import '../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../widgets/buttons/secondary_button.dart';
@@ -14,7 +16,7 @@ import '../../widgets/custom_text.dart';
 
 @RoutePage()
 class PraiseEmployeeScreen extends ConsumerStatefulWidget {
-  final PraiseTeamplate praiseTeamplate;
+  final Praise praiseTeamplate;
   const PraiseEmployeeScreen({super.key, required this.praiseTeamplate});
 
   @override
@@ -64,12 +66,18 @@ class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
                           height: context.screenHeight * 0.25,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(
-                                    widget.praiseTeamplate.templateImageUrl)),
+                                image: AssetImage(PraiseImages.values
+                                    .firstWhere(
+                                      (element) =>
+                                          element.id ==
+                                          widget.praiseTeamplate.id,
+                                      orElse: () => PraiseImages.thankYou,
+                                    )
+                                    .imgUrl)),
                           ),
                         ),
                         CustomText.displaySmall(
-                            widget.praiseTeamplate.templateName),
+                            widget.praiseTeamplate.name ?? ""),
                         UIDimensions.verticalSpaceSmall,
                       ],
                     ),

@@ -10,6 +10,7 @@ import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
 import '../../../providers/core/router_provider.dart';
+import '../../../providers/intial_top_level_providers.dart';
 
 // final landingScreenIndexProvider = StateProvider.autoDispose<int>(
 //   (ref) {
@@ -19,11 +20,24 @@ import '../../../providers/core/router_provider.dart';
 // );
 
 @RoutePage()
-class LandingScreen extends ConsumerWidget {
+class LandingScreen extends ConsumerStatefulWidget {
   const LandingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends ConsumerState<LandingScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await initialTopLevelProviders(ref);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // final currentIndex = ref.watch(landingScreenIndexProvider);
     // final indexController = useTabController(initialLength: 2);
     //? Using annotated region here only for the reason as when scaffold not having app bar set, the status bar color will not change

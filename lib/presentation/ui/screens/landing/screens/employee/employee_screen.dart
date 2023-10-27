@@ -8,24 +8,11 @@ import 'widgets/list_tile_cards.dart';
 import 'widgets/search_bar.dart';
 
 @RoutePage()
-class EmployeeScreen extends ConsumerStatefulWidget {
+class EmployeeScreen extends ConsumerWidget {
   const EmployeeScreen({super.key});
 
   @override
-  ConsumerState<EmployeeScreen> createState() => _EmployeeScreenState();
-}
-
-class _EmployeeScreenState extends ConsumerState<EmployeeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await ref.read(employeeNotifierProvider.notifier).getAllEmployees();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final employeeState = ref.watch(employeeNotifierProvider);
     return Scaffold(
       appBar: AppBar(

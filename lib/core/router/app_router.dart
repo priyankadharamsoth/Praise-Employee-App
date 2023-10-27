@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/article/article.dart';
+import '../../domain/models/praise/praise.dart';
 import '../../presentation/ui/modals/bottom_sheets/bottom_sheet_factory.dart';
 import '../../presentation/ui/modals/bottom_sheets/logout/logout_bottom_sheet.dart';
 import '../../presentation/ui/modals/bottom_sheets/praise/praise_bottom_sheet.dart';
@@ -10,7 +11,6 @@ import '../../presentation/ui/screens/landing/screens/home/home_screen.dart';
 import '../../presentation/ui/screens/landing/screens/employee/employee_screen.dart';
 import '../../presentation/ui/screens/landing/screens/praises/praises_screen.dart';
 import '../../presentation/ui/screens/praise_employee/praise_employee_screen.dart';
-import "../../presentation/providers/praise_employee/praise_employee_provider.dart";
 import '../../presentation/ui/screens/landing/screens/settings/settings_screen.dart';
 import '../../presentation/ui/screens/employee/employee_form_screen.dart';
 import '../../presentation/ui/screens/praise/praise_template_screen.dart';

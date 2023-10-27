@@ -1,5 +1,6 @@
 import '../../data/models/api/article/article_api_dto.dart';
 import '../../data/models/api/employee/employee_api_dto.dart';
+import '../../data/models/api/praise/praise_api_dto.dart';
 import '../../data/models/api/user/user_api_dto.dart';
 import '../utils/errors/app_exception.dart';
 
@@ -11,6 +12,7 @@ class AppSerializer {
       ArticleApiDto => ArticleApiDto.fromJson(json) as T,
       ArticleSourceApiDto => ArticleSourceApiDto.fromJson(json) as T,
       EmployeeApiDto => EmployeeApiDto.fromJson(json) as T,
+      PraiseApiDto => PraiseApiDto.fromJson(json) as T,
       //?Add API DTO hers
       _ => throw const AppExceptionSerializationError(),
     };
