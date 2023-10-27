@@ -2,6 +2,7 @@ enum EndPoints {
   topHeadlines,
   everything,
   sources,
+  employees,
 }
 
 extension EndPointsBuilder on EndPoints {
@@ -13,6 +14,8 @@ extension EndPointsBuilder on EndPoints {
         return "everything";
       case EndPoints.sources:
         return "top-headlines/sources";
+      case EndPoints.employees:
+        return "Employees";
     }
   }
 }

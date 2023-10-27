@@ -9,6 +9,7 @@ import '../core/utils/local_storage/cache/cache_manager_impl.dart';
 import '../core/utils/local_storage/secure/secure_storage_manager.dart';
 import '../core/utils/local_storage/secure/secure_storage_manager_impl.dart';
 import 'data_source/local/user_local_data_source.dart';
+import 'data_source/remote/employee_remote_data_source.dart';
 import 'data_source/remote/news_remote_data_source.dart';
 import 'data_source/remote/user_remote_data_source.dart';
 
@@ -61,4 +62,10 @@ UserRemoteDataSource userRemoteDataSource(UserRemoteDataSourceRef ref) {
 @Riverpod(keepAlive: true)
 NewsRemoteDataSource newsRemoteDataSource(NewsRemoteDataSourceRef ref) {
   return NewsRemoteDataSource(ref.watch(apiManagerProvider));
+}
+
+@Riverpod(keepAlive: true)
+EmployeeRemoteDataSource employeeRemoteDataSource(
+    EmployeeRemoteDataSourceRef ref) {
+  return EmployeeRemoteDataSource(ref.watch(apiManagerProvider));
 }

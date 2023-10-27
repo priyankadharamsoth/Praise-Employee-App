@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../configs/app_serializers.dart';
 import '../errors/app_exception.dart';
 import 'response/api_response.dart';
@@ -26,7 +24,7 @@ mixin SerializerMixin {
     return ApiResponseSuccess(
       listData
           .map(
-            (e) => AppSerializer.fromJson<T>(jsonDecode(e)),
+            (e) => AppSerializer.fromJson<T>(e),
           )
           .toList(),
     );

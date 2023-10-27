@@ -58,7 +58,7 @@ class ApiManagerImpl extends ApiManager with SerializerMixin {
 
     _dio = Dio(options);
 
-    _dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
+    //_dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     _dio.interceptors.addAll([
       // DioCacheInterceptor(options: cacheOptions),
       LoggyDioInterceptor(
@@ -125,7 +125,7 @@ class ApiManagerImpl extends ApiManager with SerializerMixin {
   }) async {
     return _tryApiRequest<List<T>>(
       () async {
-        final response = await _dio.request(
+        final response = await _dio.get(
           _generateUrl(endpoint, newBaseUrl),
           data: data,
           queryParameters: queryParams,
@@ -134,8 +134,8 @@ class ApiManagerImpl extends ApiManager with SerializerMixin {
             headers: headers,
           ),
           cancelToken: cancelToken ?? _cancelToken,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
+          // onSendProgress: onSendProgress,
+          // onReceiveProgress: onReceiveProgress,
         );
         return serializeResponseDataList<T>(response.data as List?);
       },
