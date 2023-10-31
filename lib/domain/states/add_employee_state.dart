@@ -23,3 +23,10 @@ class AddEmployeeStateError extends AddEmployeeState {
   @override
   String toString() => "AddEmployeeStateError: $ex";
 }
+
+extension AddEmployeeStateExtension on AddEmployeeState {
+  bool? get isLoading => switch (this) {
+        AddEmployeeStateLoading() => true,
+        AddEmployeeStateError() || AddEmployeeStateLoaded() => false,
+      };
+}

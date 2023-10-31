@@ -35,4 +35,15 @@ class PraiseRepositoryImpl implements PraiseRepository {
         return DataStateError(ex);
     }
   }
+
+  @override
+  Future<DataState<Praise>> getPraiseById(int praiseId) async {
+    final response = await _praiseRemoteDataSource.getPraiseById(praiseId);
+    switch (response) {
+      case ApiResponseSuccess<PraiseApiDto>(data: PraiseApiDto praise):
+        return DataStateSuccess(praise.toModel());
+      case ApiResponseError<PraiseApiDto>(ex: var ex):
+        return DataStateError(ex);
+    }
+  }
 }

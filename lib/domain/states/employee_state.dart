@@ -33,4 +33,8 @@ extension EmployeesStateExtension on EmployeeState {
         EmployeeStateLoaded(employees: List<Employee> employees) => employees,
         _ => null,
       };
+  bool? get isLoading => switch (this) {
+        EmployeeStateLoading() => true,
+        EmployeeStateError() || EmployeeStateLoaded() => false,
+      };
 }

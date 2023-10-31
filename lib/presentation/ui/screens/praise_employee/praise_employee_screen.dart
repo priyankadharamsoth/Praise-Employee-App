@@ -10,15 +10,14 @@ import '../../../../data/models/request_body/praise_employee_request_body.dart';
 import '../../../../domain/enums/Praise_images.dart';
 import '../../../../domain/enums/colors.dart';
 import '../../../../domain/models/praise/praise.dart';
-import '../../../../domain/states/employee_state.dart';
-import '../../../../domain/states/praise_employee_state.dart';
 import '../../../providers/core/router_provider.dart';
-import '../../../providers/employee/employee_provider.dart';
+import '../../../providers/praise/employee_praises_provider.dart';
 import '../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../modals/snack_bar/snack_bar_factory.dart';
 import '../../widgets/buttons/secondary_button.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_text.dart';
+import 'widgets/autofill_text_field.dart';
 import 'widgets/color_selector_container.dart';
 
 @RoutePage()
@@ -31,31 +30,17 @@ class PraiseEmployeeScreen extends ConsumerStatefulWidget {
 }
 
 class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
-  List<String> employeeList = [];
-  String dropdownvalue = "";
   late TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
     descriptionController = TextEditingController();
-    employeeList = ref
-        .read(employeeNotifierProvider)
-        .employees!
-        .map((e) => e.firstName ?? "")
-        .toList();
-    dropdownvalue = employeeList[0];
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(employeeDropDownNotifierProvider.notifier)
-          .updated(dropdownvalue);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     ref.watch(selectedPraiseNotifierProvider);
-    final isLoading = ref.watch(praiseEmployeeNotifierProvider).isLoading;
     Praise praiseTemplate =
         ref.watch(selectedPraiseNotifierProvider) ?? const Praise();
     final Color selectedColor = Color(int.parse(ColorCode.values
@@ -96,10 +81,14 @@ class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
                       ),
                       CustomText.headlineMedium(praiseTemplate.name ?? ""),
                       UIDimensions.verticalSpaceSmall,
-                      CustomText.headlineLarge(
-                        ref.watch(employeeDropDownNotifierProvider) ?? "",
-                        color: UIColorsLight().tertiary,
-                      ),
+                      if (ref
+                              .watch(selectedEmployeeNotfierProvider)
+                              ?.firstName !=
+                          null)
+                        CustomText.headlineLarge(
+                          "${(ref.watch(selectedEmployeeNotfierProvider)?.firstName)} ${(ref.watch(selectedEmployeeNotfierProvider)?.lastName)}",
+                          color: UIColorsLight().tertiary,
+                        ),
                     ],
                   ),
                 ),
@@ -127,48 +116,8 @@ class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
                 children: [
                   const CustomText.bodyMedium("Select an Employee"),
                   UIDimensions.verticalSpaceSmall,
-                  InputDecorator(
-                    decoration: InputDecoration(
-                      fillColor: UIColorsLight().customColors.whiteColor,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: UIColorsLight().customColors.greyColor!),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(4.0),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: UIColorsLight().customColors.greyColor!),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(4.0),
-                        ),
-                      ),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        isExpanded: true,
-                        padding: UIDimensions.allPaddingGeometry(8),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(UIDimensions.buttonR4)),
-                        value: ref.watch(employeeDropDownNotifierProvider),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        items: employeeList.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          ref
-                              .read(employeeDropDownNotifierProvider.notifier)
-                              .updated(newValue ?? "");
-                        },
-                      ),
-                    ),
-                  ),
+                  const AutoFillTextField(),
+
                   UIDimensions.verticalSpaceMedium,
                   InputTextFormField(
                     controller: TextEditingController(
@@ -201,39 +150,37 @@ class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
                   UIDimensions.verticalSpaceMedium,
                   const ColorSelectorContainer(),
                   UIDimensions.verticalSpaceMedium,
-                  (isLoading)
-                      ? SecondaryButton(
-                          text: "Submit",
-                          onPressed: () async {
-                            final isSuccess = await ref
-                                .read(praiseEmployeeNotifierProvider.notifier)
-                                .givePraise(
-                                  PraiseEmployeeRequestBody(
-                                    //TODO: static senderEmployeeID
-                                    senderEmplyeeId: 1,
-                                    //TODO: static recieverEmployeeID
-                                    receiverEmployeeId: 2,
-                                    praiseId: ref
-                                            .read(
-                                                selectedPraiseNotifierProvider)
-                                            ?.id ??
-                                        1,
-                                    description: descriptionController.text,
-                                    colorCode:
-                                        ref.read(selectedColorProvider) ?? 1,
-                                  ),
-                                );
-                            if (isSuccess) {
-                              SnackbarFactory.showSuccess("Praise sent");
-                              ref
-                                  .read(appRouterProvider)
-                                  .replace(const PraisesRoute());
-                            }
-                          },
-                          borderColor: UIColorsLight().tertiary,
-                          foregroundColor: UIColorsLight().tertiary,
-                        )
-                      : const Text("Loading"),
+                  SecondaryButton(
+                    text: "Submit",
+                    onPressed: () async {
+                      final isSuccess = await ref
+                          .read(employeePraisesNotifierProvider.notifier)
+                          .givePraise(
+                            PraiseEmployeeRequestBody(
+                              //TODO: static senderEmployeeID
+                              senderEmplyeeId: 1,
+                              receiverEmployeeId: ref
+                                  .read(selectedEmployeeNotfierProvider)!
+                                  .id!,
+                              praiseId: ref
+                                      .read(selectedPraiseNotifierProvider)
+                                      ?.id ??
+                                  1,
+                              description: descriptionController.text,
+                              colorCode: ref.read(selectedColorProvider) ?? 1,
+                            ),
+                          );
+                      if (isSuccess) {
+                        if (context.mounted) {
+                          context.popRoute();
+                        }
+                        SnackbarFactory.showSuccess("Praise sent");
+                      }
+                    },
+                    borderColor: UIColorsLight().tertiary,
+                    foregroundColor: UIColorsLight().tertiary,
+                  )
+
                   // UIDimensions.verticalSpaceMedium,
                   // SecondaryButton(
                   //   text: "Send Via Outlook",
@@ -247,6 +194,11 @@ class _PraiseEmployeeScreenState extends ConsumerState<PraiseEmployeeScreen> {
         ),
       ),
     );
+  }
+
+  void disposeControllers() {
+    descriptionController.clear();
+    ref.read(selectedEmployeeNotfierProvider.notifier).updated(null);
   }
 }
 

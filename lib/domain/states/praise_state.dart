@@ -10,11 +10,11 @@ class PraiseStateLoading extends PraiseState {
 }
 
 class PraiseStateLoaded extends PraiseState {
-  final List<Praise> praises;
-  const PraiseStateLoaded(this.praises);
+  final Praise praise;
+  const PraiseStateLoaded(this.praise);
 
   @override
-  String toString() => "PraiseStateLoaded: $praises";
+  String toString() => "PraiseStateLoaded: $praise";
 }
 
 class PraiseStateError extends PraiseState {
@@ -23,11 +23,4 @@ class PraiseStateError extends PraiseState {
 
   @override
   String toString() => "PraiseStateLoaded: $ex";
-}
-
-extension PraiseStateExtension on PraiseState {
-  List<Praise>? get praises => switch (this) {
-        PraiseStateLoaded(praises: List<Praise> praises) => praises,
-        _ => null,
-      };
 }

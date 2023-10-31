@@ -6,7 +6,7 @@ import '../../../../../core/utils/extensions/context_extension.dart';
 import '../../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../../core/utils/styles/dimensions/ui_dimensions.dart';
 import '../../../../../domain/models/praise/praise.dart';
-import '../../../../../domain/states/praise_state.dart';
+import '../../../../../domain/states/praises_state.dart';
 import '../../../../providers/praise/praise_provider.dart';
 import '../../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../../screens/landing/screens/praises/widgets/template_tile.dart';

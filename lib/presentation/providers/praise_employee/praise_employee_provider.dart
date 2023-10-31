@@ -6,6 +6,7 @@ import '../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../data/models/request_body/praise_employee_request_body.dart';
 import '../../../data/models/result/data_state.dart';
 import '../../../domain/models/base_response/base_response.dart';
+import '../../../domain/models/employee/employee.dart';
 import '../../../domain/models/praise/praise.dart';
 import '../../../domain/states/praise_employee_state.dart';
 import '../../../domain/usecases/praise_employee/praise_employee_usecases.dart';
@@ -87,13 +88,13 @@ class PraiseEmployeeNotifier extends _$PraiseEmployeeNotifier {
 }
 
 @Riverpod()
-class EmployeeDropDownNotifier extends _$EmployeeDropDownNotifier {
+class SelectedEmployeeNotfier extends _$SelectedEmployeeNotfier {
   @override
-  String? build() {
+  Employee? build() {
     return null;
   }
 
-  void updated(String val) {
+  void updated(Employee? val) {
     state = val;
   }
 }

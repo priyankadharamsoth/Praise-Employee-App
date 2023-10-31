@@ -9,7 +9,6 @@ import '../../../../core/utils/styles/colors/ui_colors_light.dart';
 import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
 import '../../../../data/models/request_body/employee_request_body.dart';
 import '../../../../domain/enums/gender.dart';
-import '../../../providers/employee/add_employee_provider.dart';
 import '../../../providers/employee/employee_provider.dart';
 import '../../widgets/buttons/primary_button.dart';
 import '../../widgets/custom_text.dart';
@@ -152,24 +151,28 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
           Padding(
             padding: UIDimensions.symmetricPaddingGeometry(horizontal: 8),
             child: PrimaryButton(
-                text: "Submit",
-                onPressed: () async {
-                  final isAdded = await ref
-                      .read(addEmployeeNotifierProvider.notifier)
-                      .addEmployee(
-                        EmployeeRequestBody(
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
-                          mobileNumber: mobileNumberController.text,
-                          email: emailController.text,
-                          gender: ref.read(genderNotifierProvider)?.id ??
-                              Gender.male.id,
-                        ),
-                      );
-                  if (isAdded) {
-                    disposeControllers();
+              text: "Submit",
+              onPressed: () async {
+                final isAdded = await ref
+                    .read(employeeNotifierProvider.notifier)
+                    .addEmployee(
+                      EmployeeRequestBody(
+                        firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        mobileNumber: mobileNumberController.text,
+                        email: emailController.text,
+                        gender: ref.read(genderNotifierProvider)?.id ??
+                            Gender.male.id,
+                      ),
+                    );
+                if (isAdded) {
+                  if (context.mounted) {
+                    context.popRoute();
                   }
-                }),
+                  disposeControllers();
+                }
+              },
+            ),
           )
         ],
       ),

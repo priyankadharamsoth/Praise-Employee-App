@@ -21,4 +21,10 @@ class PraiseRemoteDataSource {
       endpoint: EndPoints.employeePraises.val(data: userId),
     );
   }
+
+  Future<ApiResponse<PraiseApiDto>> getPraiseById(int praiseId) async {
+    return _apiManager.requestAsync(
+        requestType: RequestType.get,
+        endpoint: EndPoints.praiseById.val(data: praiseId));
+  }
 }

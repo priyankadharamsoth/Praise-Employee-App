@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
-import '../../../../domain/states/praise_state.dart';
+import '../../../../domain/states/praises_state.dart';
 import '../../../providers/core/router_provider.dart';
 import '../../../providers/praise/praise_provider.dart';
 import '../../../providers/praise_employee/praise_employee_provider.dart';
@@ -43,8 +43,8 @@ class _PraiseTemplateScreenState extends ConsumerState<PraiseTemplateScreen> {
           ),
         ),
         body: switch (praiseState) {
-          PraiseStateLoading() => const GridViewShimmer(),
-          PraiseStateLoaded(praises: var praises) => GridView.builder(
+          PraisesStateLoading() => const GridViewShimmer(),
+          PraisesStateLoaded(praises: var praises) => GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: UIDimensions.height(10),
@@ -68,7 +68,7 @@ class _PraiseTemplateScreenState extends ConsumerState<PraiseTemplateScreen> {
                 );
               },
             ),
-          PraiseStateError() => const Text('error'),
+          PraisesStateError() => const Text('error'),
         });
   }
 }

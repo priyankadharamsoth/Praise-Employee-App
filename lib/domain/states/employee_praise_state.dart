@@ -24,3 +24,11 @@ class EmployeePraisesStateError extends EmployeePraisesState {
   @override
   String toString() => "EmployeePraisesStateError: $ex";
 }
+
+extension EmployeePraiseStateExtension on EmployeePraisesState {
+  List<Praise>? get praises => switch (this) {
+        EmployeePraisesStateLoaded(praises: List<Praise> employees) =>
+          employees,
+        _ => null,
+      };
+}
