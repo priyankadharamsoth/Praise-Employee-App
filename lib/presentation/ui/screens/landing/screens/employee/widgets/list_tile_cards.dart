@@ -16,16 +16,18 @@ class ListTileCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: employees.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: UIDimensions.allPaddingGeometry(16),
+          padding: UIDimensions.symmetricPaddingGeometry(
+              horizontal: 16, vertical: 8),
           child: ListTile(
             shape: RoundedRectangleBorder(
               borderRadius:
                   BorderRadius.all(Radius.circular(UIDimensions.cardR16)),
             ),
-            tileColor: UIColorsLight().surfaceVariant,
+          tileColor: UIColorsLight().surfaceVariant,
             leading: (employees[index].gender == Gender.male.id)
                 ? Assets.images.iconMaleInactive.image(height: 28.sp)
                 : Assets.images.iconFemaleInactive.image(height: 28.sp),

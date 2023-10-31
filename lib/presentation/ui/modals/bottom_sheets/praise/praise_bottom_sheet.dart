@@ -30,9 +30,14 @@ class PraiseTemplateBottomSheet extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const CustomText.headlineLarge("Select A Praise"),
-                CustomText.headlineMedium(
-                  "Done",
-                  color: UIColorsLight().tertiary,
+                InkWell(
+                  child: CustomText.headlineMedium(
+                    "Done",
+                    color: UIColorsLight().tertiary,
+                  ),
+                  onTap: () {
+                    context.popRoute();
+                  },
                 ),
               ],
             ),
@@ -50,7 +55,16 @@ class PraiseTemplateBottomSheet extends ConsumerWidget {
                       SizedBox(
                         width: context.screenWidth * 0.35,
                         child: TemplateTile(
-                            praiseTeamplate: praises?[index] ?? const Praise()),
+                          isTemplateSelected:
+                              ref.watch(selectedPraiseNotifierProvider)?.id ==
+                                  praises?[index].id,
+                          praiseTeamplate: praises?[index] ?? const Praise(),
+                          onTap: () {
+                            ref
+                                .read(selectedPraiseNotifierProvider.notifier)
+                                .updated(praises![index]);
+                          },
+                        ),
                       ),
                       UIDimensions.horizontalSpaceMedium,
                     ],

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../domain/states/employee_state.dart';
 import '../../../../../providers/employee/employee_provider.dart';
 import '../../../../widgets/custom_text.dart';
+import '../../../../widgets/shimmer/list_place_holder.dart';
 import 'widgets/list_tile_cards.dart';
 import 'widgets/search_bar.dart';
 
@@ -26,14 +27,17 @@ class EmployeeScreen extends ConsumerWidget {
         child: Column(
           children: [
             const SearchBarWidget(),
-            switch (employeeState) {
-              EmployeeStateLoading() => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              EmployeeStateLoaded(employees: var employees) =>
-                ListTileCards(employees: employees),
-              EmployeeStateError(ex: var ex) => Text(ex.toString()),
-            }
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: switch (employeeState) {
+                EmployeeStateLoading() => const ListPlaceHolder(
+                    noOfTiles: 5,
+                  ),
+                EmployeeStateLoaded(employees: var employees) =>
+                  ListTileCards(employees: employees),
+                EmployeeStateError(ex: var ex) => Text(ex.toString()),
+              },
+            )
           ],
         ),
       ),

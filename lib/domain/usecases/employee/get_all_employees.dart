@@ -1,13 +1,11 @@
 part of 'employee_usecases.dart';
 
 @Riverpod(keepAlive: true)
-GetAllEmployees newsByCategoryUseCase(NewsByCategoryUseCaseRef ref) {
+GetAllEmployees getAllEmployeesUseCase(GetAllEmployeesUseCaseRef ref) {
   return GetAllEmployees(ref.watch(employeeRepositoryProvider));
 }
 
-
-
-class GetAllEmployees extends NoParamsUseCase<DataState<List<Employee>>> {
+class GetAllEmployees implements NoParamsUseCase<DataState<List<Employee>>> {
   final EmployeeRepository _employeeRepository;
   GetAllEmployees(this._employeeRepository);
 

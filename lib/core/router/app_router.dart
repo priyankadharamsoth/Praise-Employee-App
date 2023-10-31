@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/article/article.dart';
-import '../../domain/models/praise/praise.dart';
 import '../../presentation/ui/modals/bottom_sheets/bottom_sheet_factory.dart';
 import '../../presentation/ui/modals/bottom_sheets/logout/logout_bottom_sheet.dart';
 import '../../presentation/ui/modals/bottom_sheets/praise/praise_bottom_sheet.dart';

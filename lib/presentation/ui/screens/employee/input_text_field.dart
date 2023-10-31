@@ -9,11 +9,13 @@ class InputTextFeild extends StatelessWidget {
   final Widget imageWidget;
   final BoxConstraints? boxConstraints;
   final Widget? suffix;
+  final TextEditingController? textEditingController;
   const InputTextFeild({
     required this.hintText,
     required this.imageWidget,
     this.boxConstraints,
     this.suffix,
+    this.textEditingController,
     super.key,
   });
 
@@ -22,6 +24,7 @@ class InputTextFeild extends StatelessWidget {
     return Padding(
       padding: UIDimensions.symmetricPaddingGeometry(horizontal: 8.h),
       child: TextField(
+        controller: textEditingController,
         decoration: InputDecoration(
           fillColor: UIColorsLight().customColors.whiteColor,
           prefixIcon: Padding(

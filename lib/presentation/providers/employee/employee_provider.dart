@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/models/result/data_state.dart';
+import '../../../domain/enums/gender.dart';
 import '../../../domain/models/employee/employee.dart';
 import '../../../domain/states/employee_state.dart';
 import '../../../domain/usecases/employee/employee_usecases.dart';
@@ -9,7 +10,7 @@ part 'employee_provider.g.dart';
 @riverpod
 class EmployeeNotifier extends _$EmployeeNotifier {
   late final GetAllEmployees _getAllEmployees =
-      ref.watch(newsByCategoryUseCaseProvider);
+      ref.watch(getAllEmployeesUseCaseProvider);
 
   @override
   EmployeeState build() {
@@ -28,5 +29,17 @@ class EmployeeNotifier extends _$EmployeeNotifier {
       case DataStateError<List<Employee>>(ex: var ex):
         state = EmployeeStateError(ex: ex);
     }
+  }
+}
+
+@Riverpod(keepAlive: true)
+class GenderNotifier extends _$GenderNotifier {
+  @override
+  Gender? build() {
+    return null;
+  }
+
+  void update(Gender? gender) {
+    state = gender;
   }
 }

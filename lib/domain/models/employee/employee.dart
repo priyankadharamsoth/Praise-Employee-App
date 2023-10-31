@@ -16,10 +16,13 @@ class Employee with _$Employee implements UIModel<EmployeeApiDto> {
     int? gender,
   }) = _Employee;
   const Employee._();
-  
+
   @override
-  EmployeeApiDto toApiDto() {
-    // TODO: implement toApiDto
-    throw UnimplementedError();
-  }
+  EmployeeApiDto toApiDto() => EmployeeApiDto(
+      id: id,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      mobileNumber: mobileNumber);
 }

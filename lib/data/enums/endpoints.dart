@@ -4,6 +4,8 @@ enum EndPoints {
   sources,
   employees,
   praises,
+  employeePraises,
+  praiseEmployee,
 }
 
 extension EndPointsBuilder on EndPoints {
@@ -19,6 +21,10 @@ extension EndPointsBuilder on EndPoints {
         return "Employees";
       case EndPoints.praises:
         return "Praises";
+      case EndPoints.employeePraises:
+        return "Employees/$data/Praises";
+      case EndPoints.praiseEmployee:
+        return "PraiseEmployee";
     }
   }
 }

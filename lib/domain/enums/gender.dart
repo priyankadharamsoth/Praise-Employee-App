@@ -1,7 +1,8 @@
 enum Gender {
-  male(1),
-  female(2);
+  male(1, "Male"),
+  female(2, "Female");
 
   final int id;
-  const Gender(this.id);
+  final String name;
+  const Gender(this.id, this.name);
 }

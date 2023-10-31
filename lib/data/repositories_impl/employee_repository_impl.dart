@@ -3,6 +3,7 @@ import '../../domain/models/employee/employee.dart';
 import '../../domain/repositories/employee_repository.dart';
 import '../data_source/remote/employee_remote_data_source.dart';
 import '../models/api/employee/employee_api_dto.dart';
+import '../models/request_body/employee_request_body.dart';
 import '../models/result/data_state.dart';
 
 class EmployeeRepoImpl implements EmployeeRepository {
@@ -17,6 +18,19 @@ class EmployeeRepoImpl implements EmployeeRepository {
         ):
         return DataStateSuccess(res?.map((e) => e.toModel()).toList() ?? []);
       case ApiResponseError<List<EmployeeApiDto>>(ex: var ex):
+        return DataStateError(ex);
+    }
+  }
+
+  @override
+  Future<DataState<Employee>> addEmployee(
+      EmployeeRequestBody employeeRequestBody) async {
+    final response =
+        await _employeeRemoteDataSource.addEmployee(employeeRequestBody);
+    switch (response) {
+      case ApiResponseSuccess<EmployeeApiDto>(data: EmployeeApiDto employee):
+        return DataStateSuccess(employee.toModel());
+      case ApiResponseError<EmployeeApiDto>(ex: var ex):
         return DataStateError(ex);
     }
   }

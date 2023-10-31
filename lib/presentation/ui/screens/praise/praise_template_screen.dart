@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
 import '../../../../domain/states/praise_state.dart';
+import '../../../providers/core/router_provider.dart';
 import '../../../providers/praise/praise_provider.dart';
 import '../../../providers/praise_employee/praise_employee_provider.dart';
 import '../../widgets/custom_text.dart';
+import '../../widgets/shimmer/grid_view_shimmer.dart';
 import '../landing/screens/praises/widgets/template_tile.dart';
 
 @RoutePage()
@@ -28,6 +31,7 @@ class _PraiseTemplateScreenState extends ConsumerState<PraiseTemplateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(praiseNotifierProvider);
     final praiseState = ref.watch(praiseNotifierProvider);
     return Scaffold(
         appBar: AppBar(
@@ -39,7 +43,7 @@ class _PraiseTemplateScreenState extends ConsumerState<PraiseTemplateScreen> {
           ),
         ),
         body: switch (praiseState) {
-          PraiseStateLoading() => const CircularProgressIndicator(),
+          PraiseStateLoading() => const GridViewShimmer(),
           PraiseStateLoaded(praises: var praises) => GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -51,7 +55,17 @@ class _PraiseTemplateScreenState extends ConsumerState<PraiseTemplateScreen> {
               padding: UIDimensions.allPaddingGeometry(20),
               itemCount: praiseTemplatesList.length,
               itemBuilder: (context, index) {
-                return TemplateTile(praiseTeamplate: praises[index]);
+                return TemplateTile(
+                  praiseTeamplate: praises[index],
+                  onTap: () {
+                    ref
+                        .read(selectedPraiseNotifierProvider.notifier)
+                        .updated(praises[index]);
+                    ref
+                        .read(appRouterProvider)
+                        .push(const PraiseEmployeeRoute());
+                  },
+                );
               },
             ),
           PraiseStateError() => const Text('error'),

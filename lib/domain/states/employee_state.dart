@@ -27,3 +27,10 @@ final class EmployeeStateError extends EmployeeState {
   @override
   String toString() => 'NewsByCategoryStateLoaded(news: $ex)';
 }
+
+extension EmployeesStateExtension on EmployeeState {
+  List<Employee>? get employees => switch (this) {
+        EmployeeStateLoaded(employees: List<Employee> employees) => employees,
+        _ => null,
+      };
+}

@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/utils/assets_gen/assets.gen.dart';
 import '../../../core/utils/styles/colors/ui_colors_light.dart';
+import '../../../data/models/request_body/praise_employee_request_body.dart';
+import '../../../data/models/result/data_state.dart';
+import '../../../domain/models/base_response/base_response.dart';
+import '../../../domain/models/praise/praise.dart';
+import '../../../domain/states/praise_employee_state.dart';
+import '../../../domain/usecases/praise_employee/praise_employee_usecases.dart';
+
+part 'praise_employee_provider.g.dart';
 
 class PraiseTeamplate {
   final String templateName;
@@ -54,3 +63,61 @@ List<PraiseTeamplate> praiseTemplatesList = [
     UIColorsLight().templateColors[3],
   ),
 ];
+
+@Riverpod()
+class PraiseEmployeeNotifier extends _$PraiseEmployeeNotifier {
+  late final GivePraise _givePraise = ref.watch(givePraiseUsecaseProvider);
+  @override
+  PraiseEmployeeState build() {
+    return const PraiseEmployeeStateLoading();
+  }
+
+  Future<bool> givePraise(
+      PraiseEmployeeRequestBody praiseEmployeeRequestBody) async {
+    final response = await _givePraise(praiseEmployeeRequestBody);
+    switch (response) {
+      case DataStateSuccess<BaseResponse>(data: BaseResponse data):
+        state = PraiseEmployeeStateLoaded(data.data as bool);
+        return data.data as bool;
+      case DataStateError<BaseResponse>(ex: var ex):
+        state = PraiseEmployeeStateError(ex);
+        return false;
+    }
+  }
+}
+
+@Riverpod()
+class EmployeeDropDownNotifier extends _$EmployeeDropDownNotifier {
+  @override
+  String? build() {
+    return null;
+  }
+
+  void updated(String val) {
+    state = val;
+  }
+}
+
+@Riverpod(keepAlive: true)
+class SelectedPraiseNotifier extends _$SelectedPraiseNotifier {
+  @override
+  Praise? build() {
+    return null;
+  }
+
+  void updated(Praise val) {
+    state = val;
+  }
+}
+
+@Riverpod()
+class SelectedColor extends _$SelectedColor {
+  @override
+  int? build() {
+    return ref.read(selectedPraiseNotifierProvider)?.colorCode;
+  }
+
+  void updated(int val) {
+    state = val;
+  }
+}
