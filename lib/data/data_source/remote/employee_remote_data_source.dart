@@ -9,9 +9,13 @@ class EmployeeRemoteDataSource {
   final ApiManager _apiManager;
   EmployeeRemoteDataSource(this._apiManager);
 
-  Future<ApiResponse<List<EmployeeApiDto>>> getAllEmployees() async {
+  Future<ApiResponse<List<EmployeeApiDto>>> getAllEmployees(
+      String? searchWord) async {
     return _apiManager.requestListAsync<EmployeeApiDto>(
       requestType: RequestType.get,
+      queryParams: (searchWord != null && searchWord.isNotEmpty)
+          ? {"search": searchWord}
+          : null,
       endpoint: EndPoints.employees.val(),
     );
   }

@@ -8,6 +8,7 @@ import '../../presentation/ui/modals/bottom_sheets/praise/praise_bottom_sheet.da
 import '../../presentation/ui/screens/landing/landing_screen.dart';
 import '../../presentation/ui/screens/landing/screens/home/home_screen.dart';
 import '../../presentation/ui/screens/landing/screens/employee/employee_screen.dart';
+import '../../presentation/ui/screens/landing/screens/employee/widgets/employee_search_screen.dart';
 import '../../presentation/ui/screens/landing/screens/praises/praises_screen.dart';
 import '../../presentation/ui/screens/praise_employee/praise_employee_screen.dart';
 import '../../presentation/ui/screens/landing/screens/settings/settings_screen.dart';
@@ -74,6 +75,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           guards: [_authGuard],
           page: PraiseEmployeeRoute.page,
+        ),
+        AutoRoute(
+          guards: [_authGuard],
+          page: EmployeeSearchRoute.page,
         ),
         CustomRoute(
           guards: [_authGuard],

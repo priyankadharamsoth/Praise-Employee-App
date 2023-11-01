@@ -9,11 +9,23 @@ import 'widgets/list_tile_cards.dart';
 import 'widgets/search_bar.dart';
 
 @RoutePage()
-class EmployeeScreen extends ConsumerWidget {
+class EmployeeScreen extends ConsumerStatefulWidget {
   const EmployeeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EmployeeScreen> createState() => _EmployeeScreenState();
+}
+
+class _EmployeeScreenState extends ConsumerState<EmployeeScreen> {
+  late TextEditingController searchController;
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final employeeState = ref.watch(employeeNotifierProvider);
     return Scaffold(
       appBar: const CustomAppBar(
@@ -23,7 +35,9 @@ class EmployeeScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SearchBarWidget(),
+            SearchBarWidget(
+              controller: searchController,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: switch (employeeState) {

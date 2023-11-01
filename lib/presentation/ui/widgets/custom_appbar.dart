@@ -9,7 +9,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onBackTap;
   final double height;
 
-  const CustomAppBar({super.key, 
+  const CustomAppBar({
+    super.key,
     required this.title,
     this.isBackArrowVisible = false,
     this.onBackTap,

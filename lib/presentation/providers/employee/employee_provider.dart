@@ -21,9 +21,19 @@ class EmployeeNotifier extends _$EmployeeNotifier {
 
   Future<void> getAllEmployees() async {
     state = const EmployeeStateLoading();
+    final dataState = await _getAllEmployees("");
+    switch (dataState) {
+      case DataStateSuccess<List<Employee>>(data: var employees):
+        state = EmployeeStateLoaded(employees: employees);
 
-    final dataState = await _getAllEmployees();
+      case DataStateError<List<Employee>>(ex: var ex):
+        state = EmployeeStateError(ex: ex);
+    }
+  }
 
+  Future<void> searchEmployee(String searchWord) async {
+    state = const EmployeeStateLoading();
+    final dataState = await _getAllEmployees(searchWord);
     switch (dataState) {
       case DataStateSuccess<List<Employee>>(data: var employees):
         state = EmployeeStateLoaded(employees: employees);
@@ -60,5 +70,27 @@ class GenderNotifier extends _$GenderNotifier {
 
   void update(Gender? gender) {
     state = gender;
+  }
+}
+
+@riverpod
+class SearchEmployeeNotifier extends _$SearchEmployeeNotifier {
+  late final GetAllEmployees _getAllEmployees =
+      ref.watch(getAllEmployeesUseCaseProvider);
+  @override
+  EmployeeState build() {
+    return const EmployeeStateLoading();
+  }
+
+  Future<void> searchEmployee(String searchWord) async {
+    state = const EmployeeStateLoading();
+    final dataState = await _getAllEmployees(searchWord);
+    switch (dataState) {
+      case DataStateSuccess<List<Employee>>(data: var employees):
+        state = EmployeeStateLoaded(employees: employees);
+
+      case DataStateError<List<Employee>>(ex: var ex):
+        state = EmployeeStateError(ex: ex);
+    }
   }
 }

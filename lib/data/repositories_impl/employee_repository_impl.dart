@@ -10,8 +10,8 @@ class EmployeeRepoImpl implements EmployeeRepository {
   final EmployeeRemoteDataSource _employeeRemoteDataSource;
   EmployeeRepoImpl(this._employeeRemoteDataSource);
   @override
-  Future<DataState<List<Employee>>> getAllEmployees() async {
-    final employeeResponse = await _employeeRemoteDataSource.getAllEmployees();
+  Future<DataState<List<Employee>>> getAllEmployees(String? searchWord) async {
+    final employeeResponse = await _employeeRemoteDataSource.getAllEmployees(searchWord);
     switch (employeeResponse) {
       case ApiResponseSuccess<List<EmployeeApiDto>?>(
           data: List<EmployeeApiDto>? res
