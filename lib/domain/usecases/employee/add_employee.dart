@@ -5,11 +5,13 @@ AddEmployee addEmployeeUseCase(AddEmployeeUseCaseRef ref) {
   return AddEmployee(ref.watch(employeeRepositoryProvider));
 }
 
-class AddEmployee implements UseCase<DataState<Employee>, EmployeeRequestBody> {
+class AddEmployee
+    implements UseCase<DataState<EmployeeResult>, EmployeeRequestBody> {
   final EmployeeRepository _employeeRepository;
   AddEmployee(this._employeeRepository);
   @override
-  Future<DataState<Employee>> call(EmployeeRequestBody employeeRequestBody) {
+  Future<DataState<EmployeeResult>> call(
+      EmployeeRequestBody employeeRequestBody) {
     return _employeeRepository.addEmployee(employeeRequestBody);
   }
 }

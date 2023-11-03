@@ -12,10 +12,11 @@ class AppSerializer {
       ArticleResponseApiDto => ArticleResponseApiDto.fromJson(json) as T,
       ArticleApiDto => ArticleApiDto.fromJson(json) as T,
       ArticleSourceApiDto => ArticleSourceApiDto.fromJson(json) as T,
+      EmployeeDataApiDto => EmployeeApiDto.fromJson(json) as T,
+      EmployeeResultApiDto => EmployeeResultApiDto.fromJson(json) as T,
       EmployeeApiDto => EmployeeApiDto.fromJson(json) as T,
       PraiseApiDto => PraiseApiDto.fromJson(json) as T,
       BaseResponseApiDto => BaseResponseApiDto.fromJson(json) as T,
-      //?Add API DTO hers
       _ => throw const AppExceptionSerializationError(),
     };
   }

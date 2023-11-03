@@ -90,11 +90,11 @@ class PraiseEmployeeNotifier extends _$PraiseEmployeeNotifier {
 @Riverpod()
 class SelectedEmployeeNotfier extends _$SelectedEmployeeNotfier {
   @override
-  Employee? build() {
+  EmployeeResult? build() {
     return null;
   }
 
-  void updated(Employee? val) {
+  void updated(EmployeeResult? val) {
     state = val;
   }
 }

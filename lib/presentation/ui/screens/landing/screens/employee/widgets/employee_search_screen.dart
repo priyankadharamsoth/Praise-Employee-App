@@ -61,9 +61,9 @@ class _EmployeeSearchScreenState extends ConsumerState<EmployeeSearchScreen> {
       body: (controller.text.isNotEmpty)
           ? switch (employeeState) {
               EmployeeStateLoading() => const ListPlaceHolder(),
-              EmployeeStateLoaded(employees: List<Employee> employees) =>
-                (employees.isNotEmpty)
-                    ? ListTileCards(employees: employees)
+              EmployeeStateLoaded(employees: EmployeeData employees) =>
+                (employees.results != null && employees.results!.isNotEmpty)
+                    ? ListTileCards(employees: employees.results!)
                     : const Center(
                         child: Text('No Result Found'),
                       ),

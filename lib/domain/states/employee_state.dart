@@ -13,11 +13,11 @@ final class EmployeeStateLoading extends EmployeeState {
 }
 
 final class EmployeeStateLoaded extends EmployeeState {
-  final List<Employee> employees;
+  final EmployeeData employees;
   const EmployeeStateLoaded({required this.employees});
 
   @override
-  String toString() => 'NewsByCategoryStateLoaded(news: $employees)';
+  String toString() => 'EmployeeStateLoaded(: $employees)';
 }
 
 final class EmployeeStateError extends EmployeeState {
@@ -25,12 +25,13 @@ final class EmployeeStateError extends EmployeeState {
   const EmployeeStateError({required this.ex});
 
   @override
-  String toString() => 'NewsByCategoryStateLoaded(news: $ex)';
+  String toString() => 'EmployeeStateError($ex)';
 }
 
 extension EmployeesStateExtension on EmployeeState {
-  List<Employee>? get employees => switch (this) {
-        EmployeeStateLoaded(employees: List<Employee> employees) => employees,
+  List<EmployeeResult>? get employees => switch (this) {
+        EmployeeStateLoaded(employees: List<EmployeeResult> employees) =>
+          employees,
         _ => null,
       };
   bool? get isLoading => switch (this) {

@@ -16,19 +16,19 @@ class AutoFillTextField extends ConsumerStatefulWidget {
 }
 
 class _AutoFillTextFieldState extends ConsumerState<AutoFillTextField> {
-  GlobalKey<AutoCompleteTextFieldState<Employee>> key = GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<EmployeeResult>> key = GlobalKey();
   AutoCompleteTextField? searchTextField;
 
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final List<Employee> employee =
+    final List<EmployeeResult> employee =
         ref.watch(employeeNotifierProvider).employees ?? [];
     return Column(
-      children: <Widget>[
+      children: [
         Column(
-          children: <Widget>[
-            searchTextField = AutoCompleteTextField<Employee>(
+          children: [
+            searchTextField = AutoCompleteTextField<EmployeeResult>(
                 style: const TextStyle(color: Colors.black, fontSize: 16.0),
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(

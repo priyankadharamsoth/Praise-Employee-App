@@ -1,4 +1,5 @@
 import '../../../core/utils/api/api_manager/api_manager.dart';
+import '../../../core/utils/api/query_params.dart';
 import '../../../core/utils/api/request_type.dart';
 import '../../../core/utils/api/response/api_response.dart';
 import '../../enums/endpoints.dart';
@@ -9,18 +10,16 @@ class EmployeeRemoteDataSource {
   final ApiManager _apiManager;
   EmployeeRemoteDataSource(this._apiManager);
 
-  Future<ApiResponse<List<EmployeeApiDto>>> getAllEmployees(
-      String? searchWord) async {
-    return _apiManager.requestListAsync<EmployeeApiDto>(
+  Future<ApiResponse<EmployeeApiDto>> getAllEmployees(
+      QueryParams? queryParam) async {
+    return _apiManager.requestAsync<EmployeeApiDto>(
       requestType: RequestType.get,
-      queryParams: (searchWord != null && searchWord.isNotEmpty)
-          ? {"search": searchWord}
-          : null,
+      queryParams: (queryParam != null) ? queryParam.toMap() : null,
       endpoint: EndPoints.employees.val(),
     );
   }
 
-  Future<ApiResponse<EmployeeApiDto>> addEmployee(
+  Future<ApiResponse<EmployeeResultApiDto>> addEmployee(
       EmployeeRequestBody employeeRequestBody) async {
     return _apiManager.requestAsync(
       requestType: RequestType.post,

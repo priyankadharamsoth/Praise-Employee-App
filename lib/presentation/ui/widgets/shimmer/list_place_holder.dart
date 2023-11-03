@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/styles/dimensions/ui_dimensions.dart';
 import 'common_shimmer.dart';
 
 class ListPlaceHolder extends StatelessWidget {
@@ -16,10 +17,16 @@ class ListPlaceHolder extends StatelessWidget {
       height: context.screenHeight,
       child: ListView.builder(
         shrinkWrap: true,
-        physics:const NeverScrollableScrollPhysics(),
-        itemCount: 4,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: noOfTiles,
         itemBuilder: (context, index) {
-          return CommonShimmer(height: 70.h, width: context.screenWidth * 0.85);
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CommonShimmer(height: 70.h, width: context.screenWidth * 0.85),
+              UIDimensions.verticalSpaceMedium,
+            ],
+          );
         },
       ),
     );

@@ -10,7 +10,7 @@ class AddEmployeeStateLoading extends AddEmployeeState {
 }
 
 class AddEmployeeStateLoaded extends AddEmployeeState {
-  final Employee employee;
+  final EmployeeResult employee;
   const AddEmployeeStateLoaded(this.employee);
 
   @override

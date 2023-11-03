@@ -18,6 +18,7 @@ class EmployeeScreen extends ConsumerStatefulWidget {
 
 class _EmployeeScreenState extends ConsumerState<EmployeeScreen> {
   late TextEditingController searchController;
+  bool isLoading = false;
   @override
   void initState() {
     searchController = TextEditingController();
@@ -25,33 +26,76 @@ class _EmployeeScreenState extends ConsumerState<EmployeeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final employeeState = ref.watch(employeeNotifierProvider);
+    final ScrollController scrollController = ScrollController();
+    final EmployeeNotifier employeeNotifier =
+        ref.watch(employeeNotifierProvider.notifier);
     return Scaffold(
       appBar: const CustomAppBar(
         title: "Employees",
         isBackArrowVisible: false,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SearchBarWidget(
-              controller: searchController,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: switch (employeeState) {
-                EmployeeStateLoading() => const ListPlaceHolder(
-                    noOfTiles: 5,
-                  ),
-                EmployeeStateLoaded(employees: var employees) =>
-                  ListTileCards(employees: employees),
-                EmployeeStateError(ex: var ex) => Text(ex.toString()),
-              },
-            )
-          ],
+      body: NotificationListener(
+        onNotification: (notification) {
+          return _onScrollToMax(ref, scrollController);
+        },
+        child: SingleChildScrollView(
+          controller: scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              SearchBarWidget(
+                controller: searchController,
+              ),
+              Column(mainAxisSize: MainAxisSize.min, children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: switch (employeeState) {
+                    EmployeeStateLoading() => const ListPlaceHolder(
+                        noOfTiles: 4,
+                      ),
+                    EmployeeStateLoaded(employees: var employees) => Column(
+                        children: [
+                          ListTileCards(employees: employees.results ?? []),
+                          if (employeeNotifier.hasNext)
+                            const ListPlaceHolder(
+                              noOfTiles: 2,
+                            )
+                        ],
+                      ),
+                    EmployeeStateError(ex: var ex) => Text(ex.toString()),
+                  },
+                )
+              ])
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  bool _onScrollToMax(WidgetRef ref, ScrollController scrollController) {
+    var nextPageTrigger = 0.6 * scrollController.position.maxScrollExtent;
+    if (scrollController.position.pixels > nextPageTrigger &&
+        ref.watch(employeeNotifierProvider.notifier).hasNext &&
+        !isLoading) {
+      setState(() {
+        isLoading = !isLoading;
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+          await ref.read(employeeNotifierProvider.notifier).getAllEmployees(
+                isUpdating: true,
+              );
+          isLoading = !isLoading;
+        });
+      });
+    }
+    return false;
   }
 }

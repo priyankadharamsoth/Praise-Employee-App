@@ -19,4 +19,13 @@ class FormValidator {
     }
     return null;
   }
+
+  static String? numberValiator(String? val) {
+    if (val == null || val.isEmpty) {
+      return AppConstants.emptyErrorFieldText;
+    } else if (val.length != 10) {
+      return AppConstants.validMobileNumber;
+    }
+    return null;
+  }
 }

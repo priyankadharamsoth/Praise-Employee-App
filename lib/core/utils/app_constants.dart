@@ -30,4 +30,14 @@ class AppConstants {
 
   ///Static Messages
   static const String emptyErrorFieldText = "This field can't be empty";
+  static const String validMobileNumber = "Enter valid mobile number";
+
+  static const pageSize = 10;
+
+  //fieldId
+  static int firstNameFieldId = 1;
+  static int lastNameFieldId = 2;
+  static int emailFieldId = 3;
+  static int mobileNumberFieldId = 4;
+  static int genderFieldId = 5;
 }

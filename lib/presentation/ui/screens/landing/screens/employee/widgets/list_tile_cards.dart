@@ -9,7 +9,7 @@ import '../../../../../../../domain/models/employee/employee.dart';
 import '../../../../../widgets/custom_text.dart';
 
 class ListTileCards extends StatelessWidget {
-  final List<Employee> employees;
+  final List<EmployeeResult> employees;
   const ListTileCards({super.key, required this.employees});
 
   @override
@@ -27,7 +27,7 @@ class ListTileCards extends StatelessWidget {
               borderRadius:
                   BorderRadius.all(Radius.circular(UIDimensions.cardR16)),
             ),
-          tileColor: UIColorsLight().surfaceVariant,
+            tileColor: UIColorsLight().surfaceVariant,
             leading: (employees[index].gender == Gender.male.id)
                 ? Assets.images.iconMaleInactive.image(height: 28.sp)
                 : Assets.images.iconFemaleInactive.image(height: 28.sp),
